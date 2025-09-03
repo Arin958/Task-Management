@@ -7,7 +7,7 @@ exports.createJWT = (res, userId) => {
 
   res.cookie("token", token, {
     expires: new Date(
-      Date.now() + process.env.JWT_SECRET * 24 * 60 * 60 * 1000
+      Date.now() +  24 * 60 * 60 * 1000
     ),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
