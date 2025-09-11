@@ -11,7 +11,7 @@ exports.createJWT = (res, userId) => {
     ),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "none",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     maxAge: 1000 * 60 * 60 * 24, // 1 day
   });
 };

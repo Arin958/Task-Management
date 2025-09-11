@@ -17,7 +17,7 @@ const MyProfile = () => {
 
   const handleSave = () => {
     // In a real app, you would dispatch an action to update the user
-    console.log('Saving user data:', editedUser);
+    
     setIsEditing(false);
   };
 

@@ -24,6 +24,14 @@ const attachmentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    url: {
+      type: String,
+      
+    },
+    filePath: {
+      type: String,
+    
+    },
     originalName: {
       type: String,
       required: true,

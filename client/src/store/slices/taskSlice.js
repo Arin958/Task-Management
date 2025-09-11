@@ -49,6 +49,9 @@ export const createTask = createAsyncThunk(
         `${API}/api/task/createTask`,
         taskData,
         {
+          headers: {
+             'Content-Type': 'multipart/form-data',
+          },
           withCredentials: true,
         }
       );
@@ -100,7 +103,7 @@ export const fetchTaskById = createAsyncThunk(
       const response = await axios.get(`${API}/api/task/${taskId}`, {
         withCredentials: true,
       });
-      console.log(response.data);
+    
       return response.data.data;
     } catch (error) {
       console.error(error);

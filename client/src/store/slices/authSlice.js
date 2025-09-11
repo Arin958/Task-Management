@@ -41,10 +41,14 @@ export const companyRegister = createAsyncThunk(
   "auth/companyRegister",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API}/api/company/register/company`, userData, {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await axios.post(
+        `${API}/api/company/register/company`,
+        userData,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -102,6 +106,22 @@ export const checkAuthStatus = createAsyncThunk(
       const response = await axios.get("/api/auth/profile");
       return response.data;
     } catch (error) {
+      console.log(error);
+      return rejectWithValue(null); // Silent fail for initial check
+    }
+  }
+);
+
+export const checkCookies = createAsyncThunk(
+  "auth/checkCookies",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("/api/auth/checkauth", {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
       return rejectWithValue(null); // Silent fail for initial check
     }
   }
@@ -229,6 +249,21 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(checkAuthStatus.rejected, (state) => {
+        state.loading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+      })
+      // Check Cookies
+      .addCase(checkCookies.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(checkCookies.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
+        state.error = null;
+      })
+      .addCase(checkCookies.rejected, (state) => {
         state.loading = false;
         state.user = null;
         state.isAuthenticated = false;

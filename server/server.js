@@ -12,6 +12,7 @@ const invitationRoutes = require("./routes/invitationRoutes");
 const userRoutes = require("./routes/userRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
+const downloadRoutes = require("./routes/downloadRoutes");
 
 const app = express();
 
@@ -42,12 +43,6 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 
-app.use((req, res, next) => {
-  res.setHeader("Cache-Control", "no-store");
-  res.setHeader("Pragma", "no-cache");
-  res.setHeader("Expires", "0");
-  next();
-});
 
 // API routes
 
@@ -58,6 +53,7 @@ app.use("/api/invitation", invitationRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/notification", notificationRoutes);
+app.use("/api/download", downloadRoutes)
 
 // Connect MongoDB
 connectDB();

@@ -7,9 +7,10 @@ import { fetchNotifications } from "../../store/slices/notificationSlice";
 const Header = ({ sidebarOpen, navItems, location }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const {notifications} = useSelector((state) => state.notification);
-  console.log(notifications.length)
+
    useEffect(() => {
       
         dispatch(fetchNotifications(user.id));

@@ -167,6 +167,23 @@ const updateProfile = async (req, res) => {
   }
 };
 
+
+const checkCookies = (req, res, next) => {
+  const token = req.cookies.token;
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        res.status(401).json({ message: "Unauthorized" });
+      } else {
+        req.user = decoded.user;
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: "Unauthorized" });
+  }
+};
+
 // @desc    Logout user / clear cookie
 // @route   POST /api/auth/logout
 // @access  Private
@@ -184,4 +201,5 @@ module.exports = {
   getProfile,
   updateProfile,
   logoutUser,
+  checkCookies
 };

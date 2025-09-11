@@ -1,6 +1,5 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { Toaster } from "sonner";
 
 import {
   ClipboardDocumentCheckIcon,
@@ -71,8 +70,6 @@ const Layout = () => {
           <Outlet />
         </main>
       </div>
-
-      <Toaster position="top-right" richColors />
     </div>
   );
 };

@@ -11,8 +11,11 @@ const {
   activateUserProfile,
   logoutUser,
   deactivateUserProfile,
+  checkCookies,
 } = require("../controllers/authController");
 const authRoutes = express.Router();
+
+authRoutes.get("/checkauth", protectRoutes, checkCookies)
 
 authRoutes.post("/register", registerUser);
 authRoutes.post("/login", loginUser);
