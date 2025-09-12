@@ -372,8 +372,8 @@ const Task = () => {
                         : "text-green-600 dark:text-green-400"
                     }`}
                   >
-                    {task?.priority.charAt(0).toUpperCase() +
-                      task?.priority.slice(1)}{" "}
+                    {task?.priority?.charAt(0).toUpperCase() +
+                      task?.priority?.slice(1)}{" "}
                     Priority
                   </span>
                 </div>

@@ -5,6 +5,7 @@ import { MessageSquare, Image, Smile, Send, ThumbsUp } from "lucide-react";
 import EmojiPicker from "emoji-picker-react";
 
 const CommentsSection = ({ selectedTask, user }) => {
+
   const dispatch = useDispatch();
   const [newComment, setNewComment] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -110,13 +111,13 @@ const CommentsSection = ({ selectedTask, user }) => {
           {selectedTask.comments.map((comment, index) => (
             <div key={index} className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
-                {comment.user?.name?.charAt(0) || "U"}
+                {comment.userId?.name?.charAt(0) || "U"}
               </div>
               <div className="flex-1">
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-1 gap-1">
                     <span className="font-medium text-gray-800 dark:text-white">
-                      {comment.user?.name || "Unknown User"}
+                      {comment.userId?.name || "Unknown User"}
                     </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
                       {formatDate(comment.createdAt || new Date())}
