@@ -13,6 +13,7 @@ const userRoutes = require("./routes/userRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const downloadRoutes = require("./routes/downloadRoutes");
+const testRoutes = require("./routes/testROutes");
 
 const app = express();
 
@@ -54,6 +55,9 @@ app.use("/api/user", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/download", downloadRoutes)
+app.use("/api/test", testRoutes)
+
+
 
 // Connect MongoDB
 connectDB();
