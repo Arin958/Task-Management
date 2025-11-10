@@ -13,7 +13,7 @@ const Header = ({ sidebarOpen, navItems, location }) => {
 
    useEffect(() => {
       
-        dispatch(fetchNotifications(user.id));
+        dispatch(fetchNotifications(user?.id));
       
     }, [dispatch, user?.id]);
 

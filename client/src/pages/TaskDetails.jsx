@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   fetchTaskById,
-  addComment,
-  updateTask,
   deleteTask,
 } from "../store/slices/taskSlice";
 import { Loader2, AlertCircle } from "lucide-react";

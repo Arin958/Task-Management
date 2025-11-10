@@ -6,6 +6,8 @@ require("dotenv").config(
 const mongoose = require("mongoose");
 
 const Notification = require("../models/Notification");
+const Task = require("../models/Task");
+const Invitation = require("../models/Invitation");
 
 const mongodbUrl = process.env.MONGODB_URI;
 
@@ -27,6 +29,16 @@ connectDb().then(() => {
         console.log("Notifications cleared");
         process.exit(0);
     });
+    Task.deleteMany({}).then(() => {
+        console.log("Tasks cleared");
+        process.exit(0);
+    });
+   Invitation.deleteMany({}).then(() => {
+        console.log("Invitations cleared");
+        process.exit(0);
+    });
+    
+    
 });
 
 
