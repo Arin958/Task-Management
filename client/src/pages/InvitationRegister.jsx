@@ -5,7 +5,7 @@ import {
   registerWithInvitation,
 } from "../store/slices/invitation";
 import { toast } from "sonner";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const InvitationPage = () => {
     const {token} = useParams();
@@ -131,12 +131,12 @@ const InvitationPage = () => {
           </div>
           <h2 className="mt-6 text-2xl font-bold text-gray-900">Invalid Invitation</h2>
           <p className="text-gray-600">{apiError}</p>
-          <a 
-            href="/" 
+          <Link
+            to="/" 
             className="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           >
             Return to Home
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -153,12 +153,12 @@ const InvitationPage = () => {
           </div>
           <h2 className="mt-6 text-2xl font-bold text-gray-900">Registration Successful!</h2>
           <p className="text-gray-600">Welcome to {invitation?.companyId?.name || 'the company'}. You can now access your account.</p>
-          <a 
-            href="/dashboard" 
+          <Link
+            to="/" 
             className="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           >
             Go to Dashboard
-          </a>
+          </Link>
         </div>
       </div>
     );
