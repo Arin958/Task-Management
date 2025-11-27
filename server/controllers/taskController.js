@@ -497,7 +497,7 @@ exports.addComment = async (req, res) => {
       });
     }
 
-    // Check if user is assigned to the task or has higher privileges
+    // Allow comment only if user is assignee or has higher roles
     if (!task.assignees.includes(userId) && req.user.role === "employee") {
       return res.status(403).json({
         success: false,
@@ -505,42 +505,63 @@ exports.addComment = async (req, res) => {
       });
     }
 
-    task.comments.push({
-      userId,
-      text,
-    });
-
+    // Add comment
+    task.comments.push({ userId, text });
     await task.save();
 
+    // Populate fields
     await task.populate([
       { path: "assignees", select: "name email" },
       { path: "createdBy", select: "name email" },
       { path: "comments.userId", select: "name" },
     ]);
 
-    // ✅ Notifications for assignees except the commenter
-    const notifications = task.assignees
-      .filter((assignee) => assignee.toString() !== userId.toString())
-      .map((assigneeId) => ({
-        userId: assigneeId,
-        companyId,
-        type: "task-updated",
-        message: `A new comment was added on task "${task.title}"`,
-        relatedEntity: {
-          type: "task",
-          id: task._id,
-        },
-      }));
+    // ----------------------------------------
+    // NOTIFICATION SYSTEM FIXED
+    // ----------------------------------------
+
+    let usersToNotify = [];
+
+    // Convert assignees to IDs
+    const assigneeIds = task.assignees.map(a => a._id.toString());
+
+    // Notify all assignees except the commenter
+    usersToNotify.push(
+      ...assigneeIds.filter(id => id !== userId.toString())
+    );
+
+    // Notify admin (creator) if not the commenter
+    if (task.createdBy && task.createdBy._id.toString() !== userId.toString()) {
+      usersToNotify.push(task.createdBy._id.toString());
+    }
+
+    // Remove duplicates
+    usersToNotify = [...new Set(usersToNotify)];
+
+    // Create notifications
+    const notifications = usersToNotify.map(user => ({
+      userId: user,
+      companyId,
+      type: "task-updated",
+      message: `A new comment was added on task "${task.title}"`,
+      relatedEntity: {
+        type: "task",
+        id: task._id,
+      },
+    }));
 
     if (notifications.length > 0) {
       await Notification.insertMany(notifications);
     }
+
+    // ----------------------------------------
 
     res.status(200).json({
       success: true,
       message: "Comment added successfully",
       data: task,
     });
+
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -549,6 +570,7 @@ exports.addComment = async (req, res) => {
     });
   }
 };
+
 
 // Upload attachment to a task
 exports.uploadAttachment = async (req, res) => {

@@ -4,7 +4,7 @@ import { updateTask } from "../../store/slices/taskSlice";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 
-const EditTaskModal = ({ isEditing, setIsEditing, selectedTask }) => {
+const EditTaskModal = ({ isEditing, setIsEditing, selectedTask , user}) => {
   const dispatch = useDispatch();
   const { teams } = useSelector((state) => state.user || { users: [] });
   const [editForm, setEditForm] = useState({
@@ -36,6 +36,10 @@ const EditTaskModal = ({ isEditing, setIsEditing, selectedTask }) => {
   }, [selectedTask]);
 
   const handleSaveEdit = () => {
+    if(user.role !== "admin" && user.role !== "manager") {
+      toast.error("You are not authorized to update tasks.");
+      return;
+    }
     const updates = {
       ...editForm,
       dueDate: editForm.dueDate

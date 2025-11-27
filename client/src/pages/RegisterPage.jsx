@@ -56,6 +56,7 @@ const RegisterPage = () => {
         };
         await dispatch(companyRegister(companyData)).unwrap();
         toast.success("Company registered successfully!");
+        navigate("/login");
       } else {
         // Format data for employee registration
         const userData = {

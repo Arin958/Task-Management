@@ -132,7 +132,7 @@ const InvitationPage = () => {
           <h2 className="mt-6 text-2xl font-bold text-gray-900">Invalid Invitation</h2>
           <p className="text-gray-600">{apiError}</p>
           <Link
-            to="/" 
+            to="/login" 
             className="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           >
             Return to Home

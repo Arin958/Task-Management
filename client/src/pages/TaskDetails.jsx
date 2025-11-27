@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import {
-  fetchTaskById,
-  deleteTask,
-} from "../store/slices/taskSlice";
+import { fetchTaskById, deleteTask } from "../store/slices/taskSlice";
 import { Loader2, AlertCircle } from "lucide-react";
 import { fetchUsers } from "../store/slices/userSlice";
 import { toast } from "sonner";
@@ -15,8 +12,6 @@ import AttachmentsSection from "../components/TaskDetails/AttachmentsSection";
 import CommentsSection from "../components/TaskDetails/CommentsSection";
 import TaskActions from "../components/TaskDetails/TaskActions";
 import ActivitySection from "../components/TaskDetails/ActivitySection";
-
-
 
 const TaskDetails = () => {
   const dispatch = useDispatch();
@@ -38,6 +33,10 @@ const TaskDetails = () => {
   }, [taskId, dispatch]);
 
   const handleDeleteTask = () => {
+    if (user.role !== "admin") {
+      toast.error("You are not authorized to delete tasks.");
+      return;
+    }
     if (
       window.confirm(
         "Are you sure you want to delete this task? This action cannot be undone."
@@ -103,10 +102,11 @@ const TaskDetails = () => {
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         selectedTask={selectedTask}
+        user={user}
       />
-      
-      <TaskHeader 
-        selectedTask={selectedTask} 
+
+      <TaskHeader
+        selectedTask={selectedTask}
         onEdit={() => setIsEditing(true)}
       />
 
@@ -114,13 +114,10 @@ const TaskDetails = () => {
         {/* Left Column - Task Details */}
         <div className="lg:col-span-2">
           <TaskInfo selectedTask={selectedTask} />
-          
+
           <AttachmentsSection selectedTask={selectedTask} />
-          
-          <CommentsSection 
-            selectedTask={selectedTask} 
-            user={user}
-          />
+
+          <CommentsSection selectedTask={selectedTask} user={user} />
         </div>
 
         {/* Right Column - Activity & Info */}
@@ -130,8 +127,9 @@ const TaskDetails = () => {
             onEdit={() => setIsEditing(true)}
             onDelete={handleDeleteTask}
             isDeleting={isDeleting}
+            user={user}
           />
-          
+
           <ActivitySection selectedTask={selectedTask} />
         </div>
       </div>

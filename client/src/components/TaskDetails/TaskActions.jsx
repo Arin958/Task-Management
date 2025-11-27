@@ -2,11 +2,17 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { updateTask } from "../../store/slices/taskSlice";
 import { CheckSquare, Edit, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
-const TaskActions = ({ selectedTask, onEdit, onDelete, isDeleting }) => {
+const TaskActions = ({ selectedTask, onEdit, onDelete, isDeleting, user }) => {
   const dispatch = useDispatch();
 
   const handleMarkAsComplete = () => {
+    if (user.role !== "admin" && user.role !== "manager") {
+      toast.error("You are not authorized to mark tasks as complete.");
+      return;
+    }
+
     if (selectedTask.status !== "completed") {
       dispatch(
         updateTask({
