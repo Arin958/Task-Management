@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { addComment } from "../../store/slices/taskSlice";
 import { MessageSquare, Image, Smile, Send, ThumbsUp } from "lucide-react";
 import EmojiPicker from "emoji-picker-react";
+import { toast } from "sonner";
 
 const CommentsSection = ({ selectedTask, user }) => {
 
@@ -27,6 +28,7 @@ const CommentsSection = ({ selectedTask, user }) => {
       );
       setNewComment("");
     }
+    toast.success("Comment added successfully!");
   };
 
   const handleEmojiClick = (emojiData) => {
