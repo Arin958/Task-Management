@@ -1,5 +1,9 @@
 ⭐ Task Manager – MERN Stack
 
+Deployed Link: (https://task-management-snowy-pi.vercel.app/)
+
+Video Demo Link: (https://portfolio-rose-two-92.vercel.app/projects/689eed729b68499145613289)
+
 A full-featured Task Management Web App built with the MERN stack, designed to help users create, organize, and track tasks with real-time reminders and smart notifications.
 
 🚀 Features
